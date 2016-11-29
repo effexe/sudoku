@@ -73,19 +73,28 @@ public class SudokuServer {
 		public void run() {
 			try {
 				ArrayList<ArrayList<Integer>> l = (ArrayList<ArrayList<Integer>>) ois.readObject();
-				for(int i = 0; i < l.size(); i = i + 3){
+				for(int i = 0; i < l.size(); i += 3){
 					Set<Integer> set = new HashSet<Integer>();
-					for(int j = 0; j < l.get(i).size(); j = j + 3){
-						set.add(l.get(i).get(j));
-					}
-					if(set.size() != 9){
-						//error
+					for(int j = 0; j < l.get(i).size(); j += 3){
+						checkBox(l, i, j, set);
 					}
 				}
 			} catch (Exception e){
 				e.printStackTrace();
 			}
 			System.out.println("Hello from a thread!");
+		}
+
+		private void checkBox(ArrayList<ArrayList<Integer>> l, int i, int j, Set<Integer> set) {
+			int counter = 3;
+			for(int k = i; k < counter; k++) {
+				for(int m = j; m < counter; m++) {
+					set.add(l.get(k).get(m));
+				}
+			}
+			if(set.size() != 9){
+				//error
+			}
 		}
 
 	}
