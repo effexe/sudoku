@@ -23,7 +23,6 @@ public class SudokuClient implements ActionListener{
   private JButton[] selectionButtons;
   private JButton submitButton;
   private JButton selectedButton;
-  private int empty = -1;
   
   
   public SudokuClient() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
@@ -119,10 +118,13 @@ public class SudokuClient implements ActionListener{
 		JButton clickedButton = (JButton) e.getSource();
 		boolean isSelectionClick = findClickLocation(clickedButton, "selection");
 		boolean isBoardClick = findClickLocation(clickedButton, "board");
-		if (isSelectionClick) {
+		if (clickedButton.equals(submitButton)) {
+			validate();
+		} else if (isSelectionClick) {
 			selectedButton = clickedButton;
 		} else if (isBoardClick) {
 			if (selectedButton != null) {
+				
 				clickedButton.setText(selectedButton.getText());
 			}
 			// after the text has been copied to the board, we can clear our selection
