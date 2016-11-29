@@ -23,6 +23,7 @@ public class DateServer
 				Socket client = sock.accept();
 				// we have a connection
 				
+				
 				PrintWriter pout = new PrintWriter(client.getOutputStream(), true);
 				// write the Date to the socket
 				pout.println(new java.util.Date().toString());

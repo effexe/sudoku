@@ -1,6 +1,10 @@
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,6 +23,7 @@ public class SudokuClient implements ActionListener{
   private JButton[] selectionButtons;
   private JButton submitButton;
   private JButton selectedButton;
+  private int empty = -1;
   
   
   public SudokuClient() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
@@ -94,28 +99,53 @@ public class SudokuClient implements ActionListener{
 	  return false;
   }
   
-  public void actionPerformed(ActionEvent e) {
-	 JButton clickedButton = (JButton) e.getSource(); // this points to what the button points to
-	  boolean isSelectionClick = findClickLocation(clickedButton, "selection");
-	  boolean isBoardClick = findClickLocation(clickedButton, "board");
-	  
-    if(clickedButton.equals(submitButton)){
-    	System.out.println("Thank you for your submission, please stand by for validation...");
-    }
-	else if(isSelectionClick){
-    	selectedButton = clickedButton;
-    }
-    else if(isBoardClick){
-    	if(selectedButton != null){
-    		clickedButton.setText(selectedButton.getText());
-    	}
-    	//after the text has been copied to the board, we can clear our selection
-    	selectedButton = null;
-    	//this makes sure that if a constant button was clicked, it is reset back to the initial value
-    	setConstants(boardButtons);
-    }
-    
-  }
+  	private void parseBoard(ArrayList<ArrayList<Integer>> l){
+  		for(int i = 0; i < boardButtons.length; i++) {
+  			ArrayList<Integer> temp = new ArrayList<Integer>();
+  	      for(int j = 0; j < boardButtons[i].length; j ++) {
+  	    	  try{
+  	    	  temp.add(Integer.parseInt(boardButtons[i][j].getText()));
+  	    	  }
+  	    	  catch(NumberFormatException e){
+  	    		  System.out.println("Please make sure boxes are filled!");
+  	    	  }
+  	      }
+  	      
+  	      l.add(temp);
+  	    }
+  	}
+  
+	public void actionPerformed(ActionEvent e) {
+		JButton clickedButton = (JButton) e.getSource();
+		boolean isSelectionClick = findClickLocation(clickedButton, "selection");
+		boolean isBoardClick = findClickLocation(clickedButton, "board");
+		if (isSelectionClick) {
+			selectedButton = clickedButton;
+		} else if (isBoardClick) {
+			if (selectedButton != null) {
+				clickedButton.setText(selectedButton.getText());
+			}
+			// after the text has been copied to the board, we can clear our selection
+			selectedButton = null;
+			// this makes sure that if a constant button was clicked, it is reset back to the initial value
+			setConstants(boardButtons);
+		}
+
+	}
+
+	private void validate() {
+		System.out.println("Thank you for your submission, please stand by for validation...");
+		ArrayList<ArrayList<Integer>> mainList = new ArrayList<ArrayList<Integer>>();
+		
+		try{
+		Socket echoSocket = new Socket("127.0.0.1",6013);
+		ObjectOutputStream out = new ObjectOutputStream(echoSocket.getOutputStream());
+		out.writeObject(mainList);
+		}
+		catch(Exception e1){
+			e1.printStackTrace();
+		}
+	}
   
   public void setConstants(JButton[][] boardButtons){
 	  boardButtons[0][0].setText("5");
@@ -152,6 +182,7 @@ public class SudokuClient implements ActionListener{
   
   public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
 	  SudokuClient s = new SudokuClient();
+	  
   }
   
   
