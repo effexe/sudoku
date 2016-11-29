@@ -18,18 +18,21 @@ public class SudokuServer {
 		}
 
 		public void run() {
+			int row = 0;
 			try {
 				ArrayList<ArrayList<Integer>> l = (ArrayList<ArrayList<Integer>>) ois.readObject();
 				for(int i = 0; i < l.size(); i ++){
+					row = i;
 					Set<Integer> set = new HashSet<Integer>();
 					for(int j = 0; j < l.get(i).size(); j++){
 						set.add(l.get(i).get(j));
 					}
 					if(set.size() != 9){
-						//error
+						throw new IllegalArgumentException();
 					}
 				}
 			} catch (Exception e){
+				System.out.println("The " + row + "th row is not a valid row in a sudoku puzzle");
 				e.printStackTrace();
 			}
 			System.out.println("Hello from a thread!");
@@ -46,17 +49,20 @@ public class SudokuServer {
 		}
 
 		public void run() {
+			int col = 0;
 			try {
 				ArrayList<ArrayList<Integer>> l = (ArrayList<ArrayList<Integer>>) ois.readObject();
 				for(int i = 0; i < l.size(); i ++){
+					col = i;
 					Set<Integer> set = new HashSet<Integer>(l.get(i));
 					if(set.size() != 9){
-						//error
+						throw new IllegalArgumentException();
 					}
 				}
-			} catch (Exception e){
+			} catch (Exception e){ 
+				System.out.print("The " + col + "th column is not a valid column in a sudoku puzzle");
 				e.printStackTrace();
-			}
+			} 
 			System.out.println("Hello from a thread!");
 		}
 
@@ -71,15 +77,18 @@ public class SudokuServer {
 		}
 
 		public void run() {
+			int box = 0;
 			try {
 				ArrayList<ArrayList<Integer>> l = (ArrayList<ArrayList<Integer>>) ois.readObject();
 				for(int i = 0; i < l.size(); i += 3){
+					box++;
 					Set<Integer> set = new HashSet<Integer>();
 					for(int j = 0; j < l.get(i).size(); j += 3){
 						checkBox(l, i, j, set);
 					}
 				}
 			} catch (Exception e){
+				System.out.println("The " + box + "th box is not a valid box in a sudoku puzzle");
 				e.printStackTrace();
 			}
 			System.out.println("Hello from a thread!");

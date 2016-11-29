@@ -124,7 +124,6 @@ public class SudokuClient implements ActionListener{
 			selectedButton = clickedButton;
 		} else if (isBoardClick) {
 			if (selectedButton != null) {
-				
 				clickedButton.setText(selectedButton.getText());
 			}
 			// after the text has been copied to the board, we can clear our selection
