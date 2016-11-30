@@ -98,16 +98,11 @@ public class SudokuClient implements ActionListener{
 	  return false;
   }
   
-  	private void parseBoard(ArrayList<ArrayList<Integer>> l){
+  	private void parseBoard(ArrayList<ArrayList<Integer>> l) throws NumberFormatException{
   		for(int i = 0; i < boardButtons.length; i++) {
   			ArrayList<Integer> temp = new ArrayList<Integer>();
   	      for(int j = 0; j < boardButtons[i].length; j ++) {
-  	    	  try{
   	    	  temp.add(Integer.parseInt(boardButtons[i][j].getText()));
-  	    	  }
-  	    	  catch(NumberFormatException e){
-  	    		  System.out.println("Please make sure boxes are filled!");
-  	    	  }
   	      }
   	      
   	      l.add(temp);
@@ -119,7 +114,12 @@ public class SudokuClient implements ActionListener{
 		boolean isSelectionClick = findClickLocation(clickedButton, "selection");
 		boolean isBoardClick = findClickLocation(clickedButton, "board");
 		if (clickedButton.equals(submitButton)) {
+			try{
 			validate();
+			}
+			catch(NumberFormatException e1){
+				System.out.println("Please make sure all boxes are filled before submitting.");
+			}
 		} else if (isSelectionClick) {
 			selectedButton = clickedButton;
 		} else if (isBoardClick) {
@@ -134,17 +134,17 @@ public class SudokuClient implements ActionListener{
 
 	}
 
-	private void validate() {
+	private void validate() throws NumberFormatException {
 		System.out.println("Thank you for your submission, please stand by for validation...");
-		ArrayList<ArrayList<Integer>> mainList = new ArrayList<ArrayList<Integer>>();
-		
+		ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
+		parseBoard(list);
 		try{
-		Socket echoSocket = new Socket("127.0.0.1",6013);
-		ObjectOutputStream out = new ObjectOutputStream(echoSocket.getOutputStream());
-		out.writeObject(mainList);
+		Socket socket = new Socket("127.0.0.1",6013);
+		ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+		out.writeObject(list);
 		}
 		catch(Exception e1){
-			e1.printStackTrace();
+			System.out.println("Could not connect to server");
 		}
 	}
   

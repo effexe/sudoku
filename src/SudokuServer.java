@@ -33,9 +33,7 @@ public class SudokuServer {
 				}
 			} catch (Exception e){
 				System.out.println("The " + row + "th row is not a valid row in a sudoku puzzle");
-				e.printStackTrace();
 			}
-			System.out.println("Hello from a thread!");
 		}
 
 	}
@@ -60,10 +58,8 @@ public class SudokuServer {
 					}
 				}
 			} catch (Exception e){ 
-				System.out.print("The " + col + "th column is not a valid column in a sudoku puzzle");
-				e.printStackTrace();
-			} 
-			System.out.println("Hello from a thread!");
+				System.out.println("The " + col + "th column is not a valid column in a sudoku puzzle");
+			}
 		}
 
 	}
@@ -89,12 +85,10 @@ public class SudokuServer {
 				}
 			} catch (Exception e){
 				System.out.println("The " + box + "th box is not a valid box in a sudoku puzzle");
-				e.printStackTrace();
 			}
-			System.out.println("Hello from a thread!");
 		}
 
-		private void checkBox(ArrayList<ArrayList<Integer>> l, int i, int j, Set<Integer> set) {
+		private void checkBox(ArrayList<ArrayList<Integer>> l, int i, int j, Set<Integer> set) throws Exception {
 			int counter = 3;
 			for(int k = i; k < counter; k++) {
 				for(int m = j; m < counter; m++) {
@@ -102,7 +96,7 @@ public class SudokuServer {
 				}
 			}
 			if(set.size() != 9){
-				//error
+				throw new IllegalArgumentException();
 			}
 		}
 
@@ -112,6 +106,7 @@ public class SudokuServer {
 
 	public static void main(String[] args) {
 		SudokuServer server = new SudokuServer();
+		System.out.println("Welcome to the Sudoku validation server!");
 		try {
 			ServerSocket sock = new ServerSocket(6013);
 			// now listen for connections
@@ -119,13 +114,9 @@ public class SudokuServer {
 				Socket client = sock.accept();
 				// we have a connection
 				ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
-				server.new BoxThread(ois).run();
-				server.new ColThread(ois).run();
-				server.new RowThread(ois).run();
-				PrintWriter pout = new PrintWriter(client.getOutputStream(), true);
-				// write the Date to the socket
-				pout.println(new java.util.Date().toString());
-
+				server.new BoxThread(ois).start();
+				server.new ColThread(ois).start();
+				server.new RowThread(ois).start();
 				// close the socket and resume listening for more connections
 				client.close();
 			}
