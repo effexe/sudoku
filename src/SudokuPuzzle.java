@@ -68,60 +68,10 @@ public class SudokuPuzzle {
 	}
 	
 	public void makeMove(int row, int col, String value, boolean isMutable) {
-		if(this.isValidValue(value) && this.isValidMove(row,col,value) && this.isSlotMutable(row, col)) {
+		if(this.isValidValue(value) && this.isSlotMutable(row, col)) {
 			this.board[row][col] = value;
 			this.mutable[row][col] = isMutable;
 		}
-	}
-	
-	public boolean isValidMove(int row,int col,String value) {
-		if(this.inRange(row,col)) {
-			if(!this.numInCol(col,value) && !this.numInRow(row,value) && !this.numInBox(row,col,value)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean numInCol(int col,String value) {
-		if(col <= this.COLUMNS) {
-			for(int row=0;row < this.ROWS;row++) {
-				if(this.board[row][col].equals(value)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	public boolean numInRow(int row,String value) {
-		if(row <= this.ROWS) {
-			for(int col=0;col < this.COLUMNS;col++) {
-				if(this.board[row][col].equals(value)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	public boolean numInBox(int row,int col,String value) {
-		if(this.inRange(row, col)) {
-			int boxRow = row / this.BOXHEIGHT;
-			int boxCol = col / this.BOXWIDTH;
-			
-			int startingRow = (boxRow*this.BOXHEIGHT);
-			int startingCol = (boxCol*this.BOXWIDTH);
-			
-			for(int r = startingRow;r <= (startingRow+this.BOXHEIGHT)-1;r++) {
-				for(int c = startingCol;c <= (startingCol+this.BOXWIDTH)-1;c++) {
-					if(this.board[r][c].equals(value)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
 	}
 	
 	public boolean isSlotAvailable(int row,int col) {
