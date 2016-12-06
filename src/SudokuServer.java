@@ -7,6 +7,7 @@ import java.util.Set;
 
 public class SudokuServer {
 
+	//the thread that checks the rows in the puzzle
 	public class RowThread extends Thread {
 
 		private ArrayList<ArrayList<Integer>> l;
@@ -18,7 +19,8 @@ public class SudokuServer {
 		public void run() {
 			int row = 0;
 			try {
-
+				
+				//adds each row of the puzzle into a set
 				for (int i = 0; i < l.size(); i++) {
 					row = i;
 					Set<Integer> set = new HashSet<Integer>();
@@ -29,6 +31,7 @@ public class SudokuServer {
 						throw new IllegalArgumentException();
 					}
 				}
+				System.out.println("All rows are valid");
 			} catch (Exception e) {
 				System.out.println("The " + ordinal(row+1) + " row is not a valid row in a sudoku puzzle");
 			}
@@ -36,6 +39,7 @@ public class SudokuServer {
 
 	}
 
+	//the thread that checks the columns in the puzzle
 	public class ColThread extends Thread {
 
 		private ArrayList<ArrayList<Integer>> l;
@@ -47,13 +51,18 @@ public class SudokuServer {
 		public void run() {
 			int col = 0;
 			try {
-				for (int i = 0; i < l.size(); i++) {
-					col = i;
-					Set<Integer> set = new HashSet<Integer>(l.get(i));
+				//adds each column of the puzzle into a set
+				for (int colIndex = 0; colIndex < l.size(); colIndex++) {
+					col = colIndex;
+					Set<Integer> set = new HashSet<Integer>();
+					for(int rowIndex = 0; rowIndex < l.get(colIndex).size(); rowIndex++) {
+						set.add(l.get(rowIndex).get(colIndex));
+					}
 					if (set.size() != 9) {
 						throw new IllegalArgumentException();
 					}
 				}
+				System.out.println("All columns are valid");
 			} catch (Exception e) {
 				System.out.println("The " + ordinal(col+1) + " column is not a valid column in a sudoku puzzle");
 			}
@@ -61,6 +70,7 @@ public class SudokuServer {
 
 	}
 
+	//the thread that checks the boxes in the puzzle
 	public class BoxThread extends Thread {
 
 		private ArrayList<ArrayList<Integer>> l;
@@ -72,12 +82,14 @@ public class SudokuServer {
 		public void run() {
 			int box = 0;
 			try {
+				//adds each box of the puzzle into a set 
 				for (int boxRow = 0; boxRow < l.size(); boxRow += 3) {
 					for (int boxCol = 0; boxCol < l.get(boxRow).size(); boxCol += 3) {
 						box++;
 						checkBox(l, boxRow, boxCol, new HashSet<Integer>());
 					}
 				}
+				System.out.println("All boxes are valid!");
 			} catch (Exception e) {
 				System.out.println("The " + ordinal(box) + " box is not a valid box in a sudoku puzzle");
 			}
@@ -91,7 +103,6 @@ public class SudokuServer {
 				}
 			}
 			if (set.size() != 9) {
-				System.out.print(set);
 				throw new IllegalArgumentException();
 			}
 		}
@@ -99,14 +110,14 @@ public class SudokuServer {
 	}
 
 	private String ordinal(int i) {
-		String[] sufixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
+		String[] suffixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
 		switch (i % 100) {
 		case 11:
 		case 12:
 		case 13:
 			return i + "th";
 		default:
-			return i + sufixes[i % 10];
+			return i + suffixes[i % 10];
 
 		}
 	}
@@ -125,7 +136,9 @@ public class SudokuServer {
 				server.new BoxThread(list).start();
 				server.new ColThread(list).start();
 				server.new RowThread(list).start();
-				System.out.println("Congrtulations, this puzzle is a valid sudoku puzzle!");
+				/*
+				 * Process synchronization has not yet been implemented, and we are still currently working on this.
+				 */
 				// close the socket and resume listening for more connections
 				client.close();
 			}

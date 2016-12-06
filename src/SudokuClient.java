@@ -6,16 +6,18 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class SudokuClient{
 
   private SudokuFrame frame;
   
-  public SudokuClient() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-
+  public SudokuClient() {
+	  
     frame = new SudokuFrame();
     
+    //add a submit button to the button selection panel
 	JButton submit = new JButton("Submit");
 	submit.setPreferredSize(new Dimension(80, 40));
 	submit.addActionListener(new SubmitActionListener());
@@ -24,8 +26,10 @@ public class SudokuClient{
 	frame.setVisible(true);
   }
   
+  
   	private void parseBoard(ArrayList<ArrayList<Integer>> l) throws NumberFormatException{
   		String[][] boardButtons = frame.getSPanel().getPuzzle().getBoard();
+  		//parses string[][] board into an array of arrays of integers
   		for(int i = 0; i < boardButtons.length; i++) {
   			ArrayList<Integer> temp = new ArrayList<Integer>();
   	      for(int j = 0; j < boardButtons[i].length; j ++) {
@@ -63,8 +67,12 @@ public class SudokuClient{
 	}
   
   public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
-	  SudokuClient s = new SudokuClient();
-	  
+	 try {
+		 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	 }
+	 catch (Exception e) { 
+	 }
+	 SudokuClient s = new SudokuClient();
   }
   
   

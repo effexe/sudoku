@@ -1,13 +1,12 @@
 public class SudokuPuzzle {
 
-	protected String [][] board;
-	// Table to determine if a slot is mutable
-	protected boolean [][] mutable;
+	protected String [][] board;		// table that holds the values
+	protected boolean [][] mutable;		// Table to determine if a slot is mutable
 	private final int ROWS;
 	private final int COLUMNS;
 	private final int BOXWIDTH;
 	private final int BOXHEIGHT;
-	private final String [] VALIDVALUES;
+	private final String [] VALIDVALUES; //array that holds valid values for the puzzle
 	
 	public SudokuPuzzle(int rows,int columns,int boxWidth,int boxHeight,String [] validValues) {
 		this.ROWS = rows;
@@ -112,6 +111,7 @@ public class SudokuPuzzle {
 		return str+"\n";
 	}
 	
+	//sets the entire board to be an empty string
 	private void initializeBoard() {
 		for(int row = 0;row < this.ROWS;row++) {
 			for(int col = 0;col < this.COLUMNS;col++) {
@@ -153,6 +153,7 @@ public class SudokuPuzzle {
 		  boardButtons[8][8] = "9"; 
 	  }
 	
+	//only allows slots that aren't in the constants to be initialized 
 	private void initializeMutableSlots() {
 		for(int row = 0;row < this.ROWS;row++) {
 			for(int col = 0;col < this.COLUMNS;col++) {

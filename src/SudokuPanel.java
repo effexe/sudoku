@@ -58,6 +58,7 @@ public class SudokuPanel extends JPanel {
 		return this.puzzle;
 	}
 	
+	//paints the sudoku puzzle 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -113,6 +114,7 @@ public class SudokuPanel extends JPanel {
 		}
 	}
 	
+	//inserts the selected value into the puzzle
 	public void messageFromNumActionListener(String buttonValue) {
 		if(currentlySelectedCol != -1 && currentlySelectedRow != -1) {
 			puzzle.makeMove(currentlySelectedRow, currentlySelectedCol, buttonValue, true);
@@ -120,6 +122,7 @@ public class SudokuPanel extends JPanel {
 		}
 	}
 	
+	//action listener for button selection panel with valid values
 	public class NumActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {

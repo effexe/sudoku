@@ -12,6 +12,11 @@ public class SudokuFrame extends JFrame {
 		this.setTitle("Sudoku");
 		this.setMinimumSize(new Dimension(800,600));
 		
+		/*
+		 * Not yet implemented: A menu file that will allow us to create a new sudoku puzzle through a random generator.
+		 * We have not figured out how to do this yet, but when finished, the menu file will be added here so that the 
+		 * client can create a new puzzle. 
+		 */
 		JPanel windowPanel = new JPanel();
 		windowPanel.setLayout(new FlowLayout());
 		windowPanel.setPreferredSize(new Dimension(800,600));
@@ -27,9 +32,15 @@ public class SudokuFrame extends JFrame {
 		buildInterface(new SudokuPuzzle(9, 9, 3, 3, new String[] {"1","2","3","4","5","6","7","8","9"}), 26);
 	}
 	
+	/**
+	 * Initializes the frame for the program that holds the sudoku panel and the sudoku puzzle
+	 * @param sudokuPuzzle the puzzle that is to be placed inside of the frame
+	 * @param fontSize the font size of the sudoku puzzle
+	 */
 	public void buildInterface(SudokuPuzzle sudokuPuzzle,int fontSize) {
 		sPanel.newSudokuPuzzle(sudokuPuzzle);
 		sPanel.setFontSize(fontSize);
+		//inserts all valid values into the button selection panel 
 		for(String value : sudokuPuzzle.getValidValues()) {
 			JButton b = new JButton(value);
 			b.setPreferredSize(new Dimension(40,40));
