@@ -17,6 +17,11 @@ public class SudokuPuzzle {
 		this.board = new String[ROWS][COLUMNS];
 		this.mutable = new boolean[ROWS][COLUMNS];
 		initializeBoard();
+		/*
+		 * We are still currently working on a random generator so that we do not have to hard code the constants.
+		 * This is also so that we do not need a database to store mulitiple sudoku puzzles, and can instead create 
+		 * a new puzzle whenever we wish.
+		 */
 		setConstants(board);
 		initializeMutableSlots();
 	}
@@ -119,7 +124,7 @@ public class SudokuPuzzle {
 			}
 		}
 	}
-	
+
 	private void setConstants(String[][] boardButtons){
 		  boardButtons[0][0] = "5"; 
 		  boardButtons[0][1] = "3";
