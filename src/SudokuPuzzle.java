@@ -21,7 +21,7 @@ public class SudokuPuzzle {
 
 		// create a random sudoku puzzle using an algorithm
 		SudokuGenerate g = new SudokuGenerate();
-		int[][] newVals = g.nextBoard(60);
+		int[][] newVals = g.nextBoard(35);
 
 		// convert the int board to a string board
 		String[][] stringVals = stringValuesFromIntValues(newVals);

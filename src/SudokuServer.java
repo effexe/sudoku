@@ -33,7 +33,7 @@ public class SudokuServer {
 				}
 				System.out.println("All rows are valid");
 			} catch (Exception e) {
-				System.out.println("The " + ordinal(row+1) + " row is not a valid row in a sudoku puzzle");
+				System.err.println("The " + ordinal(row+1) + " row is not a valid row in a sudoku puzzle");
 			}
 		}
 
@@ -64,7 +64,7 @@ public class SudokuServer {
 				}
 				System.out.println("All columns are valid");
 			} catch (Exception e) {
-				System.out.println("The " + ordinal(col+1) + " column is not a valid column in a sudoku puzzle");
+				System.err.println("The " + ordinal(col+1) + " column is not a valid column in a sudoku puzzle");
 			}
 		}
 
@@ -91,7 +91,7 @@ public class SudokuServer {
 				}
 				System.out.println("All boxes are valid!");
 			} catch (Exception e) {
-				System.out.println("The " + ordinal(box) + " box is not a valid box in a sudoku puzzle");
+				System.err.println("The " + ordinal(box) + " box is not a valid box in a sudoku puzzle");
 			}
 		}
 
