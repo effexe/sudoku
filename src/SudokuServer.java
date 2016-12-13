@@ -136,9 +136,6 @@ public class SudokuServer {
 				server.new BoxThread(list).start();
 				server.new ColThread(list).start();
 				server.new RowThread(list).start();
-				/*
-				 * Process synchronization has not yet been implemented, and we are still currently working on this.
-				 */
 				// close the socket and resume listening for more connections
 				client.close();
 			}

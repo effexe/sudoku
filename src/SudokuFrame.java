@@ -31,10 +31,8 @@ public class SudokuFrame extends JFrame {
 	 * Initializes the frame for the program that holds the sudoku panel and the
 	 * sudoku puzzle
 	 * 
-	 * @param sudokuPuzzle
-	 *            the puzzle that is to be placed inside of the frame
-	 * @param fontSize
-	 *            the font size of the sudoku puzzle
+	 * @param sudokuPuzzle the puzzle that is to be placed inside of the frame
+	 * @param fontSize the font size of the sudoku puzzle
 	 */
 	public void buildInterface(SudokuPuzzle sudokuPuzzle, int fontSize) {
 		sPanel.newSudokuPuzzle(sudokuPuzzle);
